@@ -8,35 +8,45 @@ Dashboard
 {% endblock %}
 
 {% block body %}
+<div class="exit_div">
+    <a class="logout_btn btn" onclick="openPopupExit()">Exit</a>
+</div>
     <div class="dashboard">
+        <h1 class="welcome_text title">Welcome to Cardgame, {{ session.get('name')}}!</h1>
         <div class="profile_container">
-            <h1 class="welcome_text title">Welcome to <span style="color: #E62F21; font-family: inherit;">Flash</span>-<span style="color: #FFD708; font-family: inherit;">card</span>!</h1>
-            <br/>
-            <p class="username_container">{{ session.get('name') }} is logged in</p>
-            <br/>
-            <img class="flash" src="{{ url_for('static', filename='images/flash.png') }}"/>
+            <img class="pic" src="static/images/dashboard.png"/>
             <br/>
             <div class="profile">
-                <a class="btn" href="/create_wordset">create a study set</a>
-                <a class="logout_btn btn" onclick="openPopupExit()">Exit</a>
+                <a class="btn_create" href="/create_wordset">Create a study set</a>
+                <div class="import_div">
+                    <h2 class="import_h2">Import Wordset</h2>
+                    <form action="/import" method="POST" enctype="multipart/form-data">
+                        <input class="import_input" type="file" name="wordset_file" accept=".json" required>
+                        <button class="btn_export_import" type="submit">Confirm</button>
+                    </form>
+                </div>
             </div>
         </div>
         
         <br/>
         
         {% if not wordsets %}
+            <!--h3 class="no_study_set">{{ session.get('user_id') }}</h3-->
             <h3 class="no_study_set">You have no study set.</h3>
         {% else %}
             <div class="wordset_container">
-                <h2 class="title">Your study sets</h2>
+                <h2 class="wContainer_title">Your study sets</h2>
                 {% for wordset in wordsets %}
                 <div class="wordset">
-                    <h5>{{ wordset.name }}</h5>
+                    <h2 class="title">{{ wordset.name }}</h2>
 
                     <div class="wordset_btn_group">  
-                        <a class="btn" href="/study/{{wordset.id}}">study</a>
-                        <a class="test btn" href="/test/{{wordset.id}}">test</a>
-                        <button class="btn delete_btn" id="{{wordset.id}}" onclick="openPopupDelete(event)">delete</button>
+                        <a class="btn_export_import" href="/export/{{wordset.id}}" download>Export</a>
+                        <a class="btn" href="/study/{{wordset.id}}">Study</a>
+                        <a class="test btn" href="/test/{{wordset.id}}">Test</a>
+                        <a class="btn" href="/match/{{wordset.id}}">Match</a>
+                        <a class="btn" href="/edit_wordset/{{wordset.id}}">Edit</a>
+                        <button class="delete_btn" id="{{wordset.id}}" onclick="openPopupDelete(event)">Delete</button>
                     </div>
                 </div>
                 {% endfor %}
@@ -47,7 +57,7 @@ Dashboard
             <div id="main_popup_exit">
                 <button class="close_popup" id="close_popup_exit" onclick="closePopupExit()">X</button>
                 <h3>You are tyring to exit</h3>
-                <p>You will loose all your study sets once you logout. Are you sure you want to exit your profile?</p>
+                <p>Are you sure you want to exit your profile?</p>
                 <div class="confirm_or_cancel">
                     <button class="btn" onclick="closePopupExit()">Cancel</button>
                     <a href="/logout" class="btn confirm_btn">Confirm</a>
@@ -77,6 +87,7 @@ Dashboard
 
         function openPopupDelete(event) {
             targetDeleteId = event.target.id
+            console.log(targetDeleteId);
             popupDelete.setAttribute('style', 'visibility: visible')
         }
 
@@ -94,6 +105,7 @@ Dashboard
         }
 
         function deleteStudySet() {
+            console.log(targetDeleteId);
             fetch(`/delete_wordset/${targetDeleteId}`, {
                     method: "POST",
                     redirect: 'follow',

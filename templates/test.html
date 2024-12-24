@@ -9,19 +9,27 @@ Test
 
 {% block body %}
     <div id="setting_container" class="setting_container">
-        <a href="/" class="btn back_btn">back to dashboard</a>
+        <a href="/" class="back_btn">Back</a>
         <br/>
-        <h1 class="title">A <span class="test_session_highlight">test session</span> for <span class="wordset_highlight">{{wordset.name}}</span></h1>
+        <h1 class="title">A <span class="test_session_highlight">Test session</span> for <span class="wordset_highlight">{{wordset.name}}</span></h1>
         <br/>
         <br/>
-        <p><strong>
-            Welcome to a test session! During the test session, you will be given a word from the study set in random order, 
-            and you will have to type in the description for that word within a time limit. Set the desired time limit for each testing word below.
-        </strong></p>
+        <p class="plain_text">
+            Welcome to a test session! 
+        </p>
+        <p class="plain_text">
+            During the test session, you will be given a word from the study set in random order, 
+        </p>
+        <p class="plain_text"> 
+            and you will have to type in the description for that word within a time limit. 
+        </p>
+        <p class="plain_text"> 
+            Set the desired time limit for each testing word below.
+        </p>
         <br/>
         <div>
-            <label for="time_limit"><strong>Timer: </strong></label>
-            <input type="text" name="time_limit" id="time_limit" maxlength="4" placeholder="(in seconds. default: 10s)" size=30>
+            <label class="plain_text" for="time_limit">Timer: </label>
+            <input type="text" class="input_timer" name="time_limit" id="time_limit" maxlength="4" placeholder="(in seconds. default: 10s)" size=30>
         </div>
         <br/>
         <br/>
@@ -30,7 +38,7 @@ Test
     
     
     <div id="wordset_container">
-        <a class="btn quit_btn" href="/test/{{ wordset.id }}">quit test</a>
+        <a class="btn quit_btn" href="/test/{{ wordset.id }}">Quit test</a>
         <br/>
         <div class="curr_timer_container">
             <img src="{{ url_for('static', filename='images/hourglass_icon.png') }}"/>
@@ -39,14 +47,14 @@ Test
         {% for word in words %}
         <div id="{{word.id}}" class="word_container">
             <h4 class="word_id">{{ word.id }}</h4>
-            <h4>{{ word.name }}</h4>
-            <p style="display: none;">{{ word.description }}</p>
-            <input class="description" type="text" id="description_input" placeholder="Enter the description">
+            <h4 class="word_name">{{ word.name }}</h4>
+            <p style="display: none;">{{ word.translation }}</p>
+            <input class="translation" type="text" id="input_translation" placeholder="Enter the translation">
         </div>
         {% endfor %}
         <div class="btn_group">
             <button class="btn skip_btn" id="test_skip_btn">Skip</button>
-            <button class="btn" id="test_answer_btn">Answer</button>
+            <button class="btn_answer" id="test_answer_btn">Answer</button>
         </div>
     </div>
     <form id="result_form" method="GET" action="/result" class="hidden_form" >

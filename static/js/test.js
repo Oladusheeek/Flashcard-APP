@@ -31,26 +31,26 @@ async function testWord(id, time_limit){
     // give limited time to take a test on word
     await timeout(time_limit)
 
-    // when the time limit is passed, check the word description with input and empty input
-    checkWord(id, document.getElementById(currentWord).querySelector('.description').value)
-    document.getElementById(currentWord).querySelector('.description').value = ''
+    // when the time limit is passed, check the word translation with input and empty input
+    checkWord(id, document.getElementById(currentWord).querySelector('.translation').value)
+    document.getElementById(currentWord).querySelector('.translation').value = ''
 
     // hide the word after test is finished
     toggleWordVisibility(id)
 }
 
-// check if the desciption of the word given id matches the input 
+// check if the translation of the word given id matches the input 
 function checkWord(id, input){
-    let targetWord = testset.find(word => word.id == id)
-    if(input == testset.find(word => word.id == id).description){
-        targetWord.result = "correct"
+    let targetWord = testset.find(word => word.id == id);
+    if(input.toLowerCase() == targetWord.translation.toLowerCase()){
+        targetWord.result = "correct";
     }else{
-        targetWord.result = "incorrect"
+        targetWord.result = "incorrect";
     }
-    targetWord.answer = input
+    targetWord.answer = input;
 }
 
-// when skip is clikced
+// when skip is clicked
 function skipWord(id, input){
     let targetWord = testset.find(word => word.id == id)
     targetWord.result = "incorrect"
@@ -93,7 +93,7 @@ function showResult(){
 
 // when enter button is clicked, run test on words that are not tested yet.
 const answer_or_skip = async function() {
-    document.getElementById(currentWord).querySelector('.description').value = ''
+    document.getElementById(currentWord).querySelector('.translation').value = ''
 
      // clearTimeout for previous timeout
      clearTimeout(time_out)
@@ -121,13 +121,13 @@ const answer_or_skip = async function() {
 }
 
 test_skip_btn.addEventListener('click', (e) => {
-    skipWord(currentWord,document.getElementById(currentWord).querySelector('.description').value)
+    skipWord(currentWord,document.getElementById(currentWord).querySelector('.translation').value)
     answer_or_skip()
 })
 
 test_answer_btn.addEventListener('click', (e) => {
     //check the word description with input and empty input
-    checkWord(currentWord,document.getElementById(currentWord).querySelector('.description').value)
+    checkWord(currentWord,document.getElementById(currentWord).querySelector('.translation').value)
     answer_or_skip()
 })
 
@@ -143,7 +143,7 @@ test_start_btn.addEventListener('click', async (e) => {
             var word = {
                 id: words[i].childNodes[1].innerHTML,
                 name: words[i].childNodes[3].innerHTML,
-                description: words[i].childNodes[5].innerHTML,
+                translation: words[i].childNodes[5].innerHTML,
                 result: "pending",
                 answer: "pending"
             }

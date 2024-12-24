@@ -1,0 +1,184 @@
+.exit_block {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.back_btn {
+    padding: 7px;
+    font-size: 20px;
+    font-weight: normal;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: transparent;
+    border: solid 2px #00000000;
+    border-radius: 0.7rem;
+    color: #000000;
+    align-self: flex-end;
+    box-shadow: 
+    3px 3px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -3px -3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.back_btn:hover {
+    background-color: #f63224a0 ;
+    border: 2px solid #b01e14;
+    color: black;
+}
+
+.title{
+    font-size: 32px;
+    border-bottom: 1px solid black;
+}
+
+
+.matching_test_container{
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 1rem;
+    padding: 25px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    max-width: fit-content;
+    background-color: rgba(224, 224, 255, 0.549);
+    box-shadow: 
+    5px 5px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -5px -5px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.cards_container{
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 1rem;
+    padding: 10px;
+    margin: auto;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    min-width: 200px;
+    max-width: fit-content;
+    background-color: rgba(224, 224, 255, 0.549);
+    box-shadow: 
+    5px 5px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -5px -5px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.words_container{
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 1rem;
+    padding: 20px;
+    margin: auto;
+    margin-right: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    max-width: fit-content;
+    min-height: 300px;
+    /*background-color: rgba(224, 224, 255, 0.549);
+    box-shadow: 
+    5px 5px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -5px -5px 8px rgba(0, 0, 0, 0.1); */
+}
+
+.translations_container{
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 1rem;
+    padding: 20px;
+    margin: auto;
+    margin-left: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    min-height: 300px;
+    max-width: fit-content;
+    /*background-color: rgba(224, 224, 255, 0.549);
+    box-shadow: 
+    5px 5px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -5px -5px 8px rgba(0, 0, 0, 0.1); */
+}
+
+.card{
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 0.7rem;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 24px;
+    font-weight: normal;
+    padding: 10px;
+    margin: auto;
+    margin-bottom: 25px;
+    align-items: center;
+    text-align: center;
+    min-width: 100px;
+    max-width: fit-content;
+    background-color: whitesmoke;
+    box-shadow: 
+    3px 3px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -3px -3px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.card:hover{
+    background-color: white;
+    border: 1px solid wheat;
+    cursor: pointer;
+}
+
+.card.selected {
+    border-color: wheat;
+    background-color: #ffffff;
+}
+
+.card.matched {
+    visibility: hidden;
+}
+
+.modal {
+    border:2px solid rgba(0, 0, 0, 0.166);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: lavender;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 
+    5px 5px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -5px -5px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn_closeModal{
+    margin: 15px;
+    padding: 7px;
+    font-size: 20px;
+    font-weight: normal;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: transparent;
+    border: solid 2px #00000000;
+    border-radius: 0.7rem;
+    color: #000000;
+    align-self: flex-end;
+    box-shadow: 
+    5px 5px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -5px -5px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn_closeModal:hover{
+    background-color: white;
+    border-color: wheat;
+}
+
+.modal-content {
+    background-color: lavender;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}

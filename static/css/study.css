@@ -1,18 +1,43 @@
 .study_container {
     display: flex;
+    margin:auto;
+    max-width:50%;
     flex-direction: column;
-    border: 5px dotted black;
+    /*border: 2px solid black;*/
+    border-radius: 1rem;
     padding: 20px;
+    background-color: rgba(224, 224, 255, 0.549);
+    box-shadow: 
+    5px 5px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -5px -5px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.exit_block {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .back_btn {
-   border-color: #E62F21;
-   color: #E62F21;
-   align-self: flex-end;
+    padding: 7px;
+    font-size: 20px;
+    font-weight: normal;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: transparent;
+    border: solid 2px #00000000;
+    border-radius: 0.7rem;
+    color: #000000;
+    align-self: flex-end;
+    box-shadow: 
+    5px 5px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -5px -5px 8px rgba(0, 0, 0, 0.1);
 }
 
 .back_btn:hover {
-    background-color: #E62F21;
+    background-color: #f63224a0 ;
+    border: 2px solid #b01e14;
     color: black;
 }
 
@@ -29,8 +54,10 @@
 }
 
 .word_container {
+    height: 50px;
     background-color: #f4f4f4;
-    border: 2px solid black;
+    border: 1px solid rgba(0, 0, 0, 0.523);
+    border-radius: 0.7rem;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -38,6 +65,16 @@
     align-items: center;
     position: relative;
     cursor: pointer;
+    box-shadow: 
+    3px 3px 8px rgba(0, 0, 0, 0.1), 
+    2px 1px 3px rgba(0, 0, 0, 0.08), 
+    -3px -3px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.card {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 30px;
+    font-weight: normal;
 }
 
 .word_container > p {

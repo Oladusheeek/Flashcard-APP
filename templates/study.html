@@ -8,15 +8,19 @@ Study
 {% endblock %}
 
 {% block body %}
+    <div class="exit_block">
+        <a href="/" class="back_btn">Back</a>
+    </div>
     <div class="study_container">
-        <a href="/" class="btn back_btn">back to dashboard</a>
         <br/>
         <h1 class="wordset_name title">{{ wordset.name }}</h1>
         <div class="wordset_container">
             {% for word in words %}
             <div class="word_container">
-                <h4>{{ word.name }}</h4>
-                <p>{{ word.description }}</p>
+                <h4 class="card">{{ word.name }}</h4>
+                <h4 class="card">{{ word.transcription}}</h4>
+                <p class="card">{{ word.translation}}</p>
+                <p class="card">{{ word.description }}</p>
             </div>
             {% endfor %}
         </div>

@@ -9,10 +9,10 @@ Login
 
 {% block body %}
 <div class="login">
-    <h1 class="title">Welcome to <span style="color: #E62F21; font-family: inherit;">Flash</span>-<span style="color: #FFD708; font-family: inherit;">card</span>! Please Login</h1>
-    <img class="welcome-image" src="{{ url_for('static', filename='images/flash-welcome.png') }}"/>
+    <h1 class="title">Welcome to Cardgame! Please Login</h1>
+    <img class="welcome_image" src="{{ url_for('static', filename='images/Dashboard.png') }}"/>
     <form class="login_form" method="POST" action="/login">
-        <input type="text" name="username" placeholder="please enter your name" required>
+        <input type="text" class="input_login" name="username" placeholder="Your Login" required>
         <button class="btn" type="submit">Enter</button>
     </form> 
 </div>

@@ -1,0 +1,165 @@
+.exit_block {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.back_btn {
+    padding: 5px;
+    font-size: 20px;
+    font-weight: normal;
+    border: 2px solid rgba(0, 0, 0, 0);
+    border-radius: 0.7rem;
+    color: #000000;
+    align-self: flex-end;
+    box-shadow: 
+    5px 5px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -5px -5px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.back_btn:hover {
+    background-color: #f63224a0 ;
+    border: 2px solid #b01e14;
+    color: black;
+}
+
+.edit_wordset_container {
+    margin: auto;
+    max-width: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+
+.wordset_container {
+    border: 2px solid rgba(0, 0, 0, 0);
+    border-radius: 1rem;
+    background-color: rgba(224, 224, 255, 0.549);
+    box-shadow: 
+    5px 5px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -5px -5px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.edit_wordset_form {
+    margin: 50px 0;
+    border: 0px solid rgba(0, 0, 0, 0); 
+    border-radius: 1rem;
+    padding: 20px;
+    background-color: rgba(224, 224, 255, 0.549);
+    box-shadow: 
+    5px 5px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -5px -5px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.title {
+    font-size: 40px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    border-bottom: 2px solid black;
+    margin: 5px;
+}
+
+.input_name{
+    border: 2px solid rgba(0, 0, 0, 0);
+    border-radius: 0.7rem;
+    font-size: 20px;
+    box-shadow: 
+    3px 3px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -3px -3px 8px rgba(0, 0, 0, 0.1); 
+}
+
+#num_cards {
+    margin: 10px 0 15px 0;
+    width: 50px;
+    caret-color: transparent;
+}
+
+.num_cards {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+    font-size: 20px;
+    font-weight: normal;
+    border-radius: 0.5rem;
+    border: 2px solid rgba(0, 0, 0, 0);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+    max-width: fit-content;
+}
+
+.word_container {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 7px;
+}
+
+.input_word {
+    border: 2px solid rgba(0, 0, 0, 0);
+    border-radius: 0.5rem;
+    font-size: 20px;
+    box-shadow: 
+    2px 2px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -2px -2px 8px rgba(0, 0, 0, 0.1);
+    width: 100px;
+}
+
+.input_transcription {
+    border: 2px solid rgba(0, 0, 0, 0);
+    border-radius: 0.5rem;
+    font-size: 20px;
+    box-shadow: 
+    2px 2px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -2px -2px 8px rgba(0, 0, 0, 0.1);
+    width: 200px;
+}
+
+.input_translation {
+    border: 2px solid rgba(0, 0, 0, 0);
+    border-radius: 0.5rem;
+    font-size: 20px;
+    box-shadow: 
+    2px 2px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -2px -2px 8px rgba(0, 0, 0, 0.1);
+    width: 200px;
+}
+
+.input_description {
+    border: 2px solid rgba(0, 0, 0, 0);
+    border-radius: 0.5rem;
+    font-size: 20px;
+    box-shadow: 
+    2px 2px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -2px -2px 8px rgba(0, 0, 0, 0.1);
+    width: 200px;
+}
+
+.save_btn {
+    border: 2px solid rgba(0, 0, 0, 0);
+    border-radius: 0.5rem;
+    background-color: rgb(241, 241, 255);
+    margin-top: 15px;
+    font-size: 24px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    padding: 5px;
+    padding-inline: 20px;
+    align-self: flex-end;
+    box-shadow: 
+    2px 2px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -2px -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.save_btn:hover {
+    background-color: white;
+    border: 2px solid wheat;
+}

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block pagecss %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/edit_wordset.css') }}">
+{% endblock %}
+
+{% block title %}
+Edit a wordset
+{% endblock %}
+
+{% block body %}
+    <div class="exit_block">
+        <a href="/" class="back_btn">Back</a>
+    </div>
+    <div class="edit_wordset_container">
+        <form class="edit_wordset_form" method="POST">
+            <br>
+                <h1 class="title">Edit Wordset</h1>
+                <input type="text" class="input_name" id="name" name="name" value="{{ wordset.name }}" required>
+            <div>
+                <label class="num_cards" for="num_cards">Number of Cards:</label>
+                <input type="number" class="num_cards" id="num_cards" name="num_cards" value="{{ words|length }}" min="1" required>
+            </div>       
+            <h2>Words</h2>
+            <br>
+            <div class="wordset_container" id="words">
+                {% for word in words %}
+                <div class="word_container">
+                    <label class="num_cards"> {{ loop.index }}.</label>
+                    <input type="text" class="input_word" name="word" value="{{ word.name }}" placeholder="Word" required>
+                    <input type="text" class="input_transcription" name="transcription" value="{{ word.transcription }}" placeholder="Transcription">
+                    <input type="text" class="input_translation" name="translation" value="{{ word.translation }}" placeholder="Translation">
+                    <input type="text" class="input_description" name="description" value="{{ word.description }}" placeholder="Description">
+                </div>
+                {% endfor %}
+            </div>
+            <button class="save_btn" type="submit">Save</button>
+        </form>
+    </div>
+
+
+    <script>
+       function addWordContainer() {
+    // Look for all already existing word containers
+    const wordContainers = document.querySelectorAll('.word_container');
+    const count = wordContainers.length + 1; // to start from 1
+
+    // Create a new word container
+    const wordContainer = document.createElement('div');
+    wordContainer.className = 'word_container';
+    wordContainer.innerHTML = `
+        <label class="num_cards">${count}.</label>
+        <input type="text" class="input_word" name="word" placeholder="Word" required>
+        <input type="text" class="input_transcription" name="transcription" placeholder="Transcription">
+        <input type="text" class="input_translation" name="translation" placeholder="Translation">
+        <input type="text" class="input_description" name="description" placeholder="Description"><br>
+    `;
+    
+    // Adding new container with id=words
+    document.getElementById('words').appendChild(wordContainer);
+}
+    
+        document.getElementById('num_cards').addEventListener('change', function() {
+          const numCards = this.value;
+          const wordsDiv = document.getElementById('words');
+          const currentWordContainers = wordsDiv.getElementsByClassName('word_container').length;
+    
+          while (wordsDiv.getElementsByClassName('word_container').length > numCards) {
+            wordsDiv.removeChild(wordsDiv.lastChild);
+          }
+    
+          while (wordsDiv.getElementsByClassName('word_container').length < numCards) {
+            addWordContainer();
+          }
+        });
+      </script>
+{% endblock %}

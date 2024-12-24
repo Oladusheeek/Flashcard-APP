@@ -71,5 +71,24 @@ After finishing the test, it will bring you to the result page, and you can see 
 
 ![chrome-capture-2024-3-6](https://github.com/tylerhkmontana/flashcard/assets/63427616/20c066ac-c7c0-4881-b354-7680c96dd324)
 
+### On Windows,
 
+run the following code on bash.
 
+`python -m venv env`
+
+`source env/Sripts/activate`
+
+`python -m pip install --upgrade pip`
+
+`pip install -r requirements.txt`
+
+pip install --upgrade alembic
+pip install --upgrade flask-migrate
+
+flask db init
+
+flask db migrate
+
+flask db upgrade
+`python app.py`

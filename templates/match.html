@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block pagecss %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/match.css') }}">
+{% endblock %}
+{% block title %}
+Test
+{% endblock %}
+
+{% block body %}
+    <div class="exit_block">
+        <a href="/" class="back_btn">Back</a>
+    </div>
+    <div class="matching_test_container" id="matching_test_container">
+        <h1 class="title">Match the words with their translations for {{ wordset.name }}</h1>
+        <div class="cards_container">
+            <div class="words_container" id="words_container">
+                {% for word in words %}
+                    <div class="card" data-id="{{ word.id }}" data-type="word">{{ word.name }}</div>
+                {% endfor %}
+            </div>
+            <div class="translations_container" id="translations_container">
+                {% for word in words %}
+                    <div class="card" data-id="{{ word.id }}" data-type="translation">{{ word.translation }}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <script>
+        const words = [
+            {% for word in words %}
+            { id: {{ word.id }}, name: "{{ word.name }}", translation: "{{ word.translation }}" }{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ];
+    </script>
+    <script src="{{ url_for('static', filename='js/match.js') }}"></script>
+    {% endblock %}

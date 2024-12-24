@@ -1,9 +1,70 @@
-.result_container {
-    border: 5px dotted black; 
+.container{
+    /*border: 2px solid black;*/
+    border-radius: 1rem;
+    padding: 20px;
+    margin: auto;
     display: flex;
+    flex-direction: column;
+    align-items: start;
+    min-width: 50rem;
+    max-width: fit-content;
+    background-color: rgba(224, 224, 255, 0.549);
+    box-shadow: 
+    5px 5px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -5px -5px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.title_title{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 32px;
+    letter-spacing: 0.1rem;
+}
+
+.back_btn {
+    padding: 5px;
+    padding-inline: 10px;
+    font-size: 20px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: normal;
+    background-color: rgba(234, 234, 254, 0.671);
+    border: 2px solid #00000000;
+    border-radius: 0.5rem;
+    color: #000000;
+    align-self: flex-end;
+    box-shadow: 
+    3px 3px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -3px -3px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.back_btn:hover {
+    background-color: white ;
+    border: 2px solid wheat;
+    color: black;
+}
+
+.result_container {
+    /*border: 2px solid black; */
+    border-radius: 0.7rem;
+    background-color: rgb(236, 236, 252);
+    min-width: 50rem;
+    display: flex;
+    margin:auto;
     flex-direction: column;
     gap: 20px;
     padding: 20px;
+    box-shadow: 
+    3px 3px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -3px -3px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.title{
+    font-size: 24px;
+    letter-spacing: 0.05rem;
+    font-weight: normal;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .score_container {
@@ -20,16 +81,33 @@
 
 .word_container{
     padding: 20px;
-    border-width: 2px;
-    border-style: solid;
+    border: 1px solid;
+    border-radius: 0.7rem;
     background-color: white;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    box-shadow: 
+    2px 2px 8px rgba(0, 0, 0, 0.1),  
+    2px 1px 3px rgba(0, 0, 0, 0.08),
+    -2px -2px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.container_title{
+    font-size: 24px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    letter-spacing: 0.1rem;
+}
+
+.container_text{
+    font-size: 20px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: normal;
+    letter-spacing: 0.05rem;
 }
 
 .incorrect {
-    border-color: red;
+    border-color: rgba(255, 0, 0, 0.537);
 }
 
 .incorrect > h3, .incorrect > p {

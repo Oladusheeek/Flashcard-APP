@@ -25,19 +25,23 @@ const printScore = (testset) =>{
     //print Incorrect words
     for(let i=0; i<testset.length; i++){
         // warpper container for the result of tested words
+        console.log(`${testset[i].result}`)
         let word_container = document.createElement("div")
         word_container.setAttribute("class", `word_container ${testset[i].result}`)
 
         // result of each tested word
         let word = document.createElement("h3")
+        word.className = "container_title"
         word.innerHTML = testset[i].name
-        let word_desc = document.createElement("p")
-        word_desc.innerHTML = `<strong>Correct Answer</strong> ${testset[i].description}`
-        let word_answer = document.createElement("p")
-        word_answer.innerHTML = `<strong>Your Answer</strong> ${testset[i].answer}`
+        let word_translation = document.createElement("p")
+        word_translation.innerHTML = `Correct Answer ${testset[i].translation}`
+        word_translation.className = "container_text"
+        let word_answer = document.createElement('p')
+        word_answer.innerHTML = `Your Answer ${testset[i].answer}`
+        word_answer.className = "container_text"
         word_container.appendChild(word)
         word_container.appendChild(word_answer)
-        word_container.appendChild(word_desc)
+        word_container.appendChild(word_translation)
         document.getElementById("the_result").appendChild(word_container)
     }
 }
