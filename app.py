@@ -1,21 +1,20 @@
 import os
-from flask import Flask, session, request, url_for, redirect, render_template, request
+from flask import Flask, session, request, url_for, redirect, render_template, request, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import uuid
+import json
+
 
 app = Flask(__name__)
 # set app secret key to encrypt session key - value
 app.secret_key = 'secret'
 
-# local db connection
-# if os.environ['ENV'] == 'dev':
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///main.db'
-# else: 
-#     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://u563uq13927pv8:p3a1695dab31bf5214b4ef8a5d0b8bc1c35515278df177964bee0bc0969a18eb6@ceu9lmqblp8t3q.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d4nven4jtj5jc5'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+
 # Models
 
 # User model
@@ -52,16 +51,18 @@ class Word(db.Model):
 # Create a database if not exist
 db.create_all()
 
+## Functions
+
 # Main Dashboard
 @app.route("/")
 def main():
     user_id = session.get('user_id')
 
     if user_id:
-        wordsets = Wordset.query.filter_by(user_id=user_id).all()
-        return render_template('dashboard.html', wordsets=wordsets)
-    else:
-        return redirect(url_for('login'), code=302)
+        wordsets = Wordset.query.filter_by(user_id=user_id).all()    #if there is no user_session 
+        return render_template('dashboard.html', wordsets=wordsets)  #
+    else:                                                            # then redirect to login
+        return redirect(url_for('login'), code=302) 
 
 # User login
 @app.route("/login", methods=['GET', 'POST'])
@@ -94,18 +95,18 @@ def login():
 # User log out
 @app.route('/logout')
 def logout():
-    # Получаем user_id из сессии
+    # Get user_id from session
     user_id = session.get('user_id')
     
-    # Проверяем, существует ли user_id в сессии
+    # Check existense of user_id in session
     if user_id is None:
         return "Error: No user is logged in"
 
-    # Удаляем пользователя из сессии
+    # Delete user from session
     session.pop("user_id", None)
     session.pop("name", None)
 
-    # Перенаправляем на главную страницу
+    # Redirect to main page
     return redirect(url_for('main'))
 
 # User creates a wordset
@@ -113,14 +114,14 @@ def logout():
 def create_wordset():
     if request.method == 'POST':
         
-        # Получение данных из формы
+        # Get data from html form
         name = request.form['name']
         words = request.form.getlist('word')
         transcriptions = request.form.getlist('transcription')
         translations = request.form.getlist('translation')
         descriptions = request.form.getlist('description')
 
-        # Создание нового wordset
+        # Create new wordset
         new_wordset = Wordset(id=str(uuid.uuid4()), user_id=session['user_id'], name=name)
         try:
             db.session.add(new_wordset)
@@ -128,7 +129,7 @@ def create_wordset():
         except Exception as e:
             return f"Error: failed to create wordset: {e}"
 
-        # Добавление слов в wordset
+        # Add words to wordset
         for index, word in enumerate(words):
             transcription = transcriptions[index] if index < len(transcriptions) else ''
             translation = translations[index] if index < len(translations) else ''
@@ -145,31 +146,31 @@ def create_wordset():
     else:
         return render_template('create_wordset.html')
 
-
+# User edits wordset
 @app.route('/edit_wordset/<wordset_id>', methods=['POST', 'GET'])
 def edit_wordset(wordset_id):
-    # Получение существующей колоды по ID
+    # Getting existing wordset through ID
     wordset = Wordset.query.get(wordset_id)
     if not wordset:
         return f"Error: Wordset with id {wordset_id} not found"
     
     if request.method == 'POST':
-        # Обновление данных колоды
+        # Updating data of wordset
         wordset.name = request.form['name']
 
-        # Получение данных о словах и количестве карточек
+        # Get data about words and number of cards
         num_cards = int(request.form['num_cards'])
         words = request.form.getlist('word')
         transcriptions = request.form.getlist('transcription')
         translations = request.form.getlist('translation')
         descriptions = request.form.getlist('description')
 
-        # Удаление всех существующих слов в колоде
+        # Deleting all the words
         existing_words = Word.query.filter_by(wordset_id=wordset_id).all()
         for word in existing_words:
             db.session.delete(word)
 
-        # Добавление обновленных слов в колоду, с учетом количества карточек
+        # Adding new words to wordset
         for index in range(num_cards):
             word = words[index] if index < len(words) else ''
             transcription = transcriptions[index] if index < len(transcriptions) else ''
@@ -186,36 +187,11 @@ def edit_wordset(wordset_id):
 
         return redirect(url_for('main'), code=302)
     else:
-        # Получение текущих данных колоды и слов для отображения в форме редактирования
+        # Get current data for displaying on user screen
         words = Word.query.filter_by(wordset_id=wordset_id).all()
         return render_template('edit_wordset.html', wordset=wordset, words=words)
 
-@app.route("/study/<id>")
-def study(id):
-    wordset = Wordset.query.filter_by(id=id).first()
-    words = Word.query.with_parent(wordset).all()
-
-    return render_template('study.html', wordset=wordset, words=words)
-
-@app.route("/test/<id>")
-def test(id):
-    wordset = Wordset.query.filter_by(id=id).first()
-    words = Word.query.with_parent(wordset).all()
-
-    return render_template('test.html', wordset=wordset, words=words)
-
-@app.route('/match/<wordset_id>')
-def matching_test(wordset_id):
-    wordset = Wordset.query.get(wordset_id)
-    words = Word.query.filter_by(wordset_id=wordset_id).all()
-    return render_template('match.html', wordset=wordset, words=words)
-
-#if __name__ == '__main__':
-#    app.run(debug=True)
-
-############################### this is where you should pick it up from ##############################
-
-# Delete a wordset with id
+# User deletes a wordset with id
 @app.route("/delete_wordset/<id>", methods=['POST', 'GET'])
 def delete(id):
     if request.method == 'POST':
@@ -233,8 +209,51 @@ def delete(id):
     else:
         return redirect(url_for('main'))
 
-# Wordset helper functions
-# get the first wordset in the database and can see the words associated with the set
+# User deletes word
+@app.route('/delete_word/<int:word_id>', methods=['DELETE'])
+def delete_word(word_id):
+    word = Word.query.get(word_id)
+    if not word:
+        return {"error": "Word not found"}, 404
+
+    try:
+        db.session.delete(word)
+        db.session.commit()
+        return {"success": True}, 200
+    except Exception as e:
+        return {"error": f"Failed to delete word: {e}"}, 500
+
+# User studies cards
+# Just displaying cards all the "logic" in html+css files
+@app.route("/study/<id>")
+def study(id):
+    wordset = Wordset.query.filter_by(id=id).first()
+    words = Word.query.with_parent(wordset).all()
+
+    return render_template('study.html', wordset=wordset, words=words)
+
+# User testing knowledge of words
+@app.route("/test/<id>")
+def test(id):
+    wordset = Wordset.query.filter_by(id=id).first()
+    words = Word.query.with_parent(wordset).all()
+
+    return render_template('test.html', wordset=wordset, words=words)
+
+# Test Result Page Route
+@app.route("/result")
+def result():
+    return render_template('result.html')
+
+# User testing knowledge of words in "match words" format
+@app.route('/match/<wordset_id>')
+def matching_test(wordset_id):
+    wordset = Wordset.query.get(wordset_id)
+    words = Word.query.filter_by(wordset_id=wordset_id).all()
+    return render_template('match.html', wordset=wordset, words=words)
+
+
+# Get the first wordset in the database and can see the words associated with the set
 @app.route("/wordset")
 def wordset():
     user_id = session.get('user_id')
@@ -244,44 +263,32 @@ def wordset():
     wordsets = Wordset.query.filter_by(user_id=user_id).all()
     return render_template('wordsets.html', wordsets=wordsets)
 
-# Test Result Page Route
-@app.route("/result")
-def result():
-    return render_template('result.html')
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
-
-
-import json
-from flask import request, session, redirect, url_for
-
+# User imports file with wordset
 @app.route('/import', methods=['POST'])
 def import_wordset():
     user_id = session.get('user_id')
     if not user_id:
         return {"error": "User not authenticated"}, 401
 
-    # Проверка наличия файла
+    # Checking if file provided
     file = request.files.get('wordset_file')
     if not file:
         return {"error": "No file provided"}, 400
 
     try:
-        # Загрузка и декодирование JSON-файла
+        # Loading wordset file
         data = json.load(file)
 
-        # Проверка структуры данных
+        # Checking for data structure
         if not data or 'name' not in data or 'words' not in data:
             return {"error": "Invalid data format"}, 400
 
-        # Создать новый Wordset для текущего пользователя
+        # Creating new wordset for current user
         new_wordset = Wordset(id=str(uuid.uuid4()), user_id=user_id, name=data['name'])
         db.session.add(new_wordset)
         db.session.commit()
 
-        # Добавить слова в Wordset
+        # Adding words to wordset
         for word_data in data['words']:
             new_word = Word(
                 name=word_data['name'],
@@ -299,18 +306,7 @@ def import_wordset():
     except Exception as e:
         return {"error": f"An error occurred: {e}"}, 500
 
-
-@app.route('/routes', methods=['GET'])
-def list_routes():
-    routes = []
-    for rule in app.url_map.iter_rules():
-        routes.append({"endpoint": rule.endpoint, "methods": list(rule.methods), "url": rule.rule})
-    return {"routes": routes}
-
-
-import json
-from flask import Response
-
+# User exports his wordset
 @app.route('/export/<wordset_id>', methods=['GET'])
 def export_wordset(wordset_id):
     wordset = Wordset.query.get(wordset_id)
@@ -331,9 +327,28 @@ def export_wordset(wordset_id):
         ]
     }
 
-    # Генерация форматированного JSON
     formatted_json = json.dumps(wordset_data, indent=4, ensure_ascii=False)
-    response = Response(formatted_json, content_type='application/json')
-    response.headers['Content-Disposition'] = f'attachment; filename={wordset.name}.json'
+    response = Response(
+        formatted_json,
+        content_type='application/json; charset=utf-8'
+    )
+    response.headers['Content-Disposition'] = f'attachment; filename="{wordset.name}.json"'
 
+    # Explicitly set content-length
+    response.headers['Content-Length'] = str(len(formatted_json))
     return response
+
+if __name__ == "__main__":
+    # Set environment variables
+    os.environ["FLASK_APP"] = "app.py"  
+    os.environ["FLASK_ENV"] = "production"  # Export works ONLY in production mode
+    # Running flask run
+    os.system("flask run")
+
+# Displaying routes
+@app.route('/routes', methods=['GET'])
+def list_routes():
+    routes = []
+    for rule in app.url_map.iter_rules():
+        routes.append({"endpoint": rule.endpoint, "methods": list(rule.methods), "url": rule.rule})
+    return {"routes": routes}

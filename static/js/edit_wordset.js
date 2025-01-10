@@ -1,8 +1,9 @@
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
     const saveButton = document.getElementById('save-button');
     const numCardsInput = document.getElementById('num_cards');
-    const wordsetContainer = document.getElementById('wordset_container');
+    const wordsetContainer = document.getElementById('words');
 
+    // Сохранение изменений
     saveButton.addEventListener('click', () => {
         const formData = new FormData(document.getElementById('edit_wordset_form'));
 
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 
+    // Обновление количества карточек
     numCardsInput.addEventListener('change', (event) => {
         const currentNumCards = wordsetContainer.children.length;
         const newNumCards = parseInt(event.target.value);
@@ -45,6 +47,31 @@ document.addEventListener('DOMContentLoaded', (event) => {
             for (let i = currentNumCards; i > newNumCards; i--) {
                 wordsetContainer.removeChild(wordsetContainer.lastChild);
             }
+        }
+    });
+
+    // Удаление карточки
+    wordsetContainer.addEventListener('click', (event) => {
+        if (event.target.classList.contains('delete_b')) {
+            const wordId = event.target.getAttribute('data-word-id');
+            console.log(`Delete button clicked for word ID: ${wordId}`); // Для отладки
+
+            // Отправляем запрос на сервер для удаления карточки
+            fetch(`/delete_word/${wordId}`, {
+                method: 'DELETE',
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Удаляем карточку из DOM
+                    console.log(`Word ID ${wordId} deleted successfully`); // Для отладки
+                    event.target.closest('.word_container').remove();
+                } else {
+                    return response.text().then(text => { throw new Error(text) });
+                }
+            })
+            .catch(error => {
+                alert('Error: ' + error.message);
+            });
         }
     });
 });

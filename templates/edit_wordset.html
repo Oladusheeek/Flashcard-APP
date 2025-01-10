@@ -31,6 +31,7 @@ Edit a wordset
                     <input type="text" class="input_transcription" name="transcription" value="{{ word.transcription }}" placeholder="Transcription">
                     <input type="text" class="input_translation" name="translation" value="{{ word.translation }}" placeholder="Translation">
                     <input type="text" class="input_description" name="description" value="{{ word.description }}" placeholder="Description">
+                    <button class ="delete_btn" type="button" data-word-id="{{ word.id }}">{{word.id}}</button>
                 </div>
                 {% endfor %}
             </div>
