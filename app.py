@@ -301,8 +301,10 @@ def import_wordset():
 
         db.session.commit()
         return redirect(url_for('main'))
-    except json.JSONDecodeError:
-        return {"error": "Failed to parse JSON file"}, 400
+    except json.JSONDecodeError as e:
+        print(f"JSONDecodeError: {e}")  # Для отладки
+        return {"error": f"Failed to parse JSON file: {e}"}, 400
+
     except Exception as e:
         return {"error": f"An error occurred: {e}"}, 500
 
@@ -335,7 +337,7 @@ def export_wordset(wordset_id):
     response.headers['Content-Disposition'] = f'attachment; filename="{wordset.name}.json"'
 
     # Explicitly set content-length
-    response.headers['Content-Length'] = str(len(formatted_json))
+    #response.headers['Content-Length'] = str(len(formatted_json))
     return response
 
 if __name__ == "__main__":

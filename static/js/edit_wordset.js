@@ -1,33 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const saveButton = document.getElementById('save-button');
-    const numCardsInput = document.getElementById('num_cards');
     const wordsetContainer = document.getElementById('words');
+    const numCardsInput = document.getElementById('num_cards');
 
-    // Сохранение изменений
-    saveButton.addEventListener('click', () => {
-        const formData = new FormData(document.getElementById('edit_wordset_form'));
+    if (!wordsetContainer) {
+        console.error("Container with ID 'words' not found!");
+        return;
+    }
 
-        fetch(window.location.pathname, {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log('Changes saved successfully!');
-                window.location.href = '/'; // Redirect to home page
-            } else {
-                return response.text().then(text => { throw new Error(text) });
-            }
-        })
-        .catch(error => {
-            alert('Error: ' + error.message);
-        });
-    });
-
-    // Обновление количества карточек
-    numCardsInput.addEventListener('change', (event) => {
+    // Обработка изменения количества карточек
+    numCardsInput.addEventListener('change', () => {
         const currentNumCards = wordsetContainer.children.length;
-        const newNumCards = parseInt(event.target.value);
+        const newNumCards = parseInt(numCardsInput.value);
 
         if (newNumCards > currentNumCards) {
             for (let i = currentNumCards; i < newNumCards; i++) {
@@ -35,11 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 newCard.className = 'word_container';
                 newCard.innerHTML = `
                     <label>${i + 1}.</label>
-                    <input type="hidden" name="new_word_id_${i}" value="new_${i}">
-                    <input type="text" class="input_word" name="new_word_${i}" placeholder="word" required>
-                    <input type="text" class="input_transcription" name="new_transcription_${i}" placeholder="transcription">
-                    <input type="text" class="input_translation" name="new_translation_${i}" placeholder="translation">
-                    <input type="text" class="input_description" name="new_description_${i}" placeholder="description">
+                    <input type="text" class="input_word" name="word" placeholder="word" required>
+                    <input type="text" class="input_transcription" name="transcription" placeholder="transcription">
+                    <input type="text" class="input_translation" name="translation" placeholder="translation">
+                    <input type="text" class="input_description" name="description" placeholder="description">
                 `;
                 wordsetContainer.appendChild(newCard);
             }
@@ -50,11 +32,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Удаление карточки
+    // Обработка удаления карточки
     wordsetContainer.addEventListener('click', (event) => {
-        if (event.target.classList.contains('delete_b')) {
+        if (event.target.classList.contains('delete_btn')) {
             const wordId = event.target.getAttribute('data-word-id');
-            console.log(`Delete button clicked for word ID: ${wordId}`); // Для отладки
+            if (!wordId) {
+                console.error("Word ID not found!");
+                return;
+            }
+            console.log(`Delete button clicked for word ID: ${wordId}`);
 
             // Отправляем запрос на сервер для удаления карточки
             fetch(`/delete_word/${wordId}`, {
@@ -62,15 +48,18 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(response => {
                 if (response.ok) {
-                    // Удаляем карточку из DOM
-                    console.log(`Word ID ${wordId} deleted successfully`); // Для отладки
+                    console.log(`Word ID ${wordId} deleted successfully`);
                     event.target.closest('.word_container').remove();
+
+                    // Обновляем количество карточек
+                    const remainingCards = wordsetContainer.children.length;
+                    numCardsInput.value = remainingCards;
                 } else {
                     return response.text().then(text => { throw new Error(text) });
                 }
             })
             .catch(error => {
-                alert('Error: ' + error.message);
+                console.error('Error: ', error.message);
             });
         }
     });
