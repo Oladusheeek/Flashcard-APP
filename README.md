@@ -123,12 +123,18 @@ Exported file has structure like this:
 ## I had some troubles with launching this app on my configuration, so i will recommend to first try original instruction at the beginning of README, and then if it didn't work try next:
 
 python -m venv env
+
 source env/Sripts/activate
+
 python -m pip install --upgrade pip
+
 pip install -r requirements.txt
+
 pip install --upgrade alembic
+
 pip install --upgrade flask-migrate
 flask db init
 flask db migrate
 flask db upgrade
 python app.py
+
